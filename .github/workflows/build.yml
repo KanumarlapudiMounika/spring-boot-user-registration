@@ -1,13 +1,12 @@
-name: Java CI with Maven
+name: Build and Deploy Spring Boot app to Azure Web App
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,11 +16,16 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin'
         java-version: '17'
+        distribution: 'temurin'
 
     - name: Build with Maven
-      run: mvn clean install
+      run: mvn clean package --file pom.xml
 
-    - name: Run tests
-      run: mvn test
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name:UserRegistration          # Replace this
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: target/*.jar
+
