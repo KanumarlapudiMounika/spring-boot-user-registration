@@ -22,10 +22,12 @@ jobs:
     - name: Build with Maven
       run: mvn clean package --file pom.xml
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
+    - name: Azure Login
+      uses: azure/login@v1
       with:
-        app-name:UserRegistration          # Replace this
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: target/*.jar
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Azure Web App
+      run: |
+        az webapp deploy --resource-group java --name UserRegistration --src-path target/*.jar
 
