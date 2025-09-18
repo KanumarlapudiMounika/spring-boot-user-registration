@@ -1,0 +1,5 @@
+com/example/userregistration/controller/UserController.class
+com/example/userregistration/repository/UserRepository.class
+com/example/userregistration/UserRegistrationApplication.class
+com/example/userregistration/model/User.class
+com/example/userregistration/service/UserService.class
